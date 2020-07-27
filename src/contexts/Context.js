@@ -9,7 +9,7 @@ const ContextProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(`/task`);
-
+      console.log(response.data);
       setToDos(response.data);
     };
 
@@ -17,11 +17,26 @@ const ContextProvider = (props) => {
   }, []);
 
   const addToDo = (description) => {
-    setToDos(...toDos, description);
+    const newToDo = {
+      description: description
+    }
+
+    const fetchData = async () => {
+      const response = await api.put(`/task`, newToDo);
+      console.log(response);
+    };
+    fetchData();
+
+   // setToDos(...toDos, newToDo);
   };
 
   const removeToDo = (id) => {
-    setToDos(toDos.filter((toDo) => toDo.id !== id));
+   // setToDos(toDos.filter((toDo) => toDo.id !== id));
+    const fetchData = async () => {
+      const response = await api.delete(`/task/` + id);
+      console.log(response);
+    };
+    fetchData();
   };
 
   return (
