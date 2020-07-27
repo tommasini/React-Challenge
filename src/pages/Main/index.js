@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../contexts/Context";
 
 import Container from "../../components/Container";
@@ -8,17 +8,19 @@ import Footer from "../../components/Footer";
 
 const Main = () => {
   const { toDos, removeToDo, addToDo } = useContext(Context);
-  console.log(toDos);
 
+  const [value, setValue] = useState("");
 
-  
+  const handleSubmit = () => {
+    addToDo(value);
+  }
 
   let toDosRender;
   if (toDos) {
     toDosRender = toDos.map((toDo) => {
       return (
         <tr key={toDo.id}>
-          <td>{toDo.state}</td>
+          <td>{toDo.state ? "true" : "false"}</td>
           <td>{toDo.description}</td>
           <td>
             <button>Edit</button>/<button onClick={() => removeToDo(toDo.id)}>Delete</button>
@@ -28,11 +30,13 @@ const Main = () => {
     });
   }
 
+   
+
   return (
     <>
       <Container>
-        <NewTaskInput action >
-          <input type="text" placeholder="Write new task here..."></input>
+        <NewTaskInput onSubmit={handleSubmit}>
+          <input onChange={e => setValue(e.target.value)} value={value} type="text" placeholder="Write new task here..."></input>
           <input type="submit" id="createButton" value="Create"></input>
         </NewTaskInput>
 

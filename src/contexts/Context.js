@@ -4,7 +4,7 @@ import api from "../services/api";
 export const Context = createContext();
 
 const ContextProvider = (props) => {
-  const [toDos, setToDos] = useState();
+  const [toDos, setToDos] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,21 +17,23 @@ const ContextProvider = (props) => {
   }, []);
 
   const addToDo = (description) => {
+  
     const newToDo = {
       description: description
     }
 
     const fetchData = async () => {
-      const response = await api.put(`/task`, newToDo);
-      console.log(response);
+     const response = await api.put(`/task`, newToDo);
+      
+      setToDos(...toDos, response.data);
     };
-    fetchData();
 
-   // setToDos(...toDos, newToDo);
+    fetchData();
+    
   };
 
   const removeToDo = (id) => {
-   // setToDos(toDos.filter((toDo) => toDo.id !== id));
+    setToDos(toDos.filter((toDo) => toDo.id !== id));
     const fetchData = async () => {
       const response = await api.delete(`/task/` + id);
       console.log(response);
