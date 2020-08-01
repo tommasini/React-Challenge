@@ -16,6 +16,7 @@ const ContextProvider = (props) => {
     fetchData();
   }, []);
 
+ 
   const addToDo = (description) => {
   
     const newToDo = {
@@ -32,6 +33,19 @@ const ContextProvider = (props) => {
     
   };
 
+  const editToDo = (id, state, description) => {
+    const newToDo = {
+      state: state,
+      description: description
+    }
+    const fetchData = async () => {
+      const response = await api.patch(`/task/` + id, newToDo);
+      console.log(response);
+    };
+    fetchData();
+
+  }
+
   const removeToDo = (id) => {
     setToDos(toDos.filter((toDo) => toDo.id !== id));
     const fetchData = async () => {
@@ -41,8 +55,22 @@ const ContextProvider = (props) => {
     fetchData();
   };
 
+  const hideCompleted = () => {
+    setToDos(toDos.filter(x => x.state === false));
+  }
+
+  const showAll = () => {
+    const fetchData = async () => {
+      const response = await api.get(`/task`);
+      setToDos(response.data);
+    };
+    fetchData();
+  }
+
+ 
+
   return (
-    <Context.Provider value={{ toDos, addToDo, removeToDo }}>
+    <Context.Provider value={{ toDos, addToDo, removeToDo, hideCompleted, showAll, editToDo }}>
       {props.children}
     </Context.Provider>
   );
