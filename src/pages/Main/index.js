@@ -15,44 +15,22 @@ const Main = () => {
     hideCompleted,
     showAll,
     editToDo,
+    orderAToZ,
+    toDosAToZ,
+    orderZToA,
+    toDosZToA,
+    dateOrder
   } = useContext(Context);
 
   const [value, setValue] = useState("");
 
   const [editValue, setEditValue] = useState("");
 
+  const [sortType, setSortType] = useState("date");
+
   const handleSubmit = () => {
     addToDo(value);
   };
-
-  /*
-  const handleChange = (id) => {
-    setChecked(!checked);
-
-    const fetchData = async () => {
-      const response = await api.patch(`/task/` + id, {state: checked});
-      console.log(response);
-    };
-    fetchData();
-  /*  setChecked(!checked);
-    const response = await api.patch(`/task/` + id, {state: checked});
-    console.log(response);*/
-
-  /*const changeState = (id) => {
-      const changedState = {
-        state: true,
-      };
-
-      const fetchData = async () => {
-        const response = await api.patch(`/task/` + id, changedState);
-        console.log(response);
-      };
-      fetchData();
-    };
-   
-    
-  };
-  */
 
   const toggleCompleted = (e, id, description) => {
     console.log(e.target.checked);
@@ -78,11 +56,49 @@ const Main = () => {
 
   const toogleEdit = (id, state) => {
     console.log(id, state);
-     editToDo(id, state, editValue);
+    editToDo(id, state, editValue);
   };
 
   let toDosRender;
-  if (toDos) {
+  /*const tableRender = (data, sort) => {
+    if (data && sortType === sort) {
+      toDosRender = data.map((toDo) => {
+        return (
+          <tr key={toDo.id}>
+            <td>
+              <input
+                type="checkbox"
+                readOnly={toDo.state === true ? true : false}
+                onChange={(e) => {
+                  toggleCompleted(e, toDo.id, toDo.description);
+                }}
+                defaultChecked={toDo.state === true ? true : false}
+              />
+              <label>Completed</label>
+            </td>
+  
+            <td>
+              <form onSubmit={() => toogleEdit(toDo.id, toDo.state)}>
+                <input
+                  type="text"
+                  placeholder={toDo.description}
+                  onChange={(e) => setEditValue(e.target.value)}
+                />
+                <input type="submit" value="Edit" />
+              </form>
+            </td>
+            <td>
+              <button onClick={() => removeToDo(toDo.id)}>Delete</button>
+            </td>
+          </tr>
+        );
+      });
+    }
+  }*/
+
+ // tableRender(toDos, "date");
+  
+  if (toDos && sortType === "date") {
     toDosRender = toDos.map((toDo) => {
       return (
         <tr key={toDo.id}>
@@ -100,8 +116,75 @@ const Main = () => {
 
           <td>
             <form onSubmit={() => toogleEdit(toDo.id, toDo.state)}>
-              <input type="text" placeholder={toDo.description} onChange={(e) => setEditValue(e.target.value)}
-             />
+              <input
+                type="text"
+                placeholder={toDo.description}
+                onChange={(e) => setEditValue(e.target.value)}
+              />
+              <input type="submit" value="Edit" />
+            </form>
+          </td>
+          <td>
+            <button onClick={() => removeToDo(toDo.id)}>Delete</button>
+          </td>
+        </tr>
+      );
+    });
+  } else if (toDosAToZ && sortType === "asc") {
+    toDosRender = toDosAToZ.map((toDo) => {
+      return (
+        <tr key={toDo.id}>
+          <td>
+            <input
+              type="checkbox"
+              readOnly={toDo.state === true ? true : false}
+              onChange={(e) => {
+                toggleCompleted(e, toDo.id, toDo.description);
+              }}
+              defaultChecked={toDo.state === true ? true : false}
+            />
+            <label>Completed</label>
+          </td>
+
+          <td>
+            <form onSubmit={() => toogleEdit(toDo.id, toDo.state)}>
+              <input
+                type="text"
+                placeholder={toDo.description}
+                onChange={(e) => setEditValue(e.target.value)}
+              />
+              <input type="submit" value="Edit" />
+            </form>
+          </td>
+          <td>
+            <button onClick={() => removeToDo(toDo.id)}>Delete</button>
+          </td>
+        </tr>
+      );
+    });
+  }else if(toDosZToA && sortType === "desc") {
+    toDosRender = toDosZToA.map((toDo) => {
+      return (
+        <tr key={toDo.id}>
+          <td>
+            <input
+              type="checkbox"
+              readOnly={toDo.state === true ? true : false}
+              onChange={(e) => {
+                toggleCompleted(e, toDo.id, toDo.description);
+              }}
+              defaultChecked={toDo.state === true ? true : false}
+            />
+            <label>Completed</label>
+          </td>
+
+          <td>
+            <form onSubmit={() => toogleEdit(toDo.id, toDo.state)}>
+              <input
+                type="text"
+                placeholder={toDo.description}
+                onChange={(e) => setEditValue(e.target.value)}
+              />
               <input type="submit" value="Edit" />
             </form>
           </td>
@@ -112,6 +195,27 @@ const Main = () => {
       );
     });
   }
+
+  const handleClick = () => {
+    
+
+    switch (sortType) {
+      case "date":
+        orderAToZ();
+        setSortType("asc");
+        break;
+      case "asc":
+        orderZToA();
+        setSortType("desc");
+        break;
+      case "desc":
+        dateOrder();
+        setSortType("date");
+        break;
+      default:
+        setSortType("date");
+    }
+  };
 
   return (
     <>
@@ -130,7 +234,7 @@ const Main = () => {
           <tbody>
             <tr>
               <th colSpan="3">
-                <button>Tasks</button>
+                <button onClick={handleClick}>Tasks</button>
               </th>
             </tr>
             {toDosRender}
