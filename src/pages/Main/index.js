@@ -105,7 +105,7 @@ const Main = () => {
           <td>
             <input
               type="checkbox"
-              readOnly={toDo.state === true ? true : false}
+              disabled={toDo.state === true ? true : false}
               onChange={(e) => {
                 toggleCompleted(e, toDo.id, toDo.description);
               }}
@@ -137,7 +137,7 @@ const Main = () => {
           <td>
             <input
               type="checkbox"
-              readOnly={toDo.state === true ? true : false}
+              disabled={toDo.state === true ? true : false}
               onChange={(e) => {
                 toggleCompleted(e, toDo.id, toDo.description);
               }}
@@ -169,7 +169,7 @@ const Main = () => {
           <td>
             <input
               type="checkbox"
-              readOnly={toDo.state === true ? true : false}
+              disabled={toDo.state === true ? true : false}
               onChange={(e) => {
                 toggleCompleted(e, toDo.id, toDo.description);
               }}
