@@ -120,8 +120,9 @@ const Main = () => {
                 type="text"
                 placeholder={toDo.description}
                 onChange={(e) => setEditValue(e.target.value)}
+                className="editInput"
               />
-              <input type="submit" value="Edit" />
+              <input type="submit" value="Edit" className="editButton" />
             </form>
           </td>
           <td>
@@ -152,8 +153,9 @@ const Main = () => {
                 type="text"
                 placeholder={toDo.description}
                 onChange={(e) => setEditValue(e.target.value)}
+                className="editInput"
               />
-              <input type="submit" value="Edit" />
+              <input type="submit" value="Edit" className="editButton" />
             </form>
           </td>
           <td>
@@ -184,8 +186,9 @@ const Main = () => {
                 type="text"
                 placeholder={toDo.description}
                 onChange={(e) => setEditValue(e.target.value)}
+                className="editInput"
               />
-              <input type="submit" value="Edit" />
+              <input type="submit" value="Edit" className="editButton" />
             </form>
           </td>
           <td>
